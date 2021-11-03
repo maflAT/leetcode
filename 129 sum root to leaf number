@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Iterator
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -12,13 +12,14 @@ class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        return sum(int(num) for num in sumn(root))
+        return sum(int(decimal) for decimal in sumgen(root))
 
 
-def sumn(node: TreeNode) -> list[str]:
-    if not (node.left or node.right):
-        return [str(node.val)]
+def sumgen(node: TreeNode) -> Iterator[str]:
+    if not node.left and not node.right:
+        yield str(node.val)
     digit = str(node.val)
-    left = [digit + num for num in sumn(node.left)] if node.left else []
-    right = [digit + num for num in sumn(node.right)] if node.right else []
-    return left + right
+    if node.left:
+        yield from (digit + decimal for decimal in sumgen(node.left))
+    if node.right:
+        yield from (digit + decimal for decimal in sumgen(node.right))
