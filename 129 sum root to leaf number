@@ -1,0 +1,24 @@
+from typing import Optional
+
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val: int = val
+        self.left: Optional[TreeNode] = left
+        self.right: Optional[TreeNode] = right
+
+
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return sum(int(num) for num in sumn(root))
+
+
+def sumn(node: TreeNode) -> list[str]:
+    if not (node.left or node.right):
+        return [str(node.val)]
+    digit = str(node.val)
+    left = [digit + num for num in sumn(node.left)] if node.left else []
+    right = [digit + num for num in sumn(node.right)] if node.right else []
+    return left + right
